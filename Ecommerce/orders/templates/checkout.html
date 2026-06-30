@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-3">
+
+<div class="row justify-content-center">
+
+    <div class="col-md-6">
+
+        <div class="card shadow border-0 rounded-4 p-4">
+
+            <h2 class="text-center mb-4 text-primary">
+                Checkout
+            </h2>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        Full Name
+                    </label>
+                    <input type="text"
+                           name="name"
+                           class="form-control"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        Phone Number
+                    </label>
+                    <input type="text"
+                           name="phone"
+                           class="form-control"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        Address
+                    </label>
+                    <textarea name="address"
+                              class="form-control"
+                              rows="3"
+                              required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        City
+                    </label>
+                    <input type="text"
+                           name="city"
+                           class="form-control"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        State
+                    </label>
+                    <input type="text"
+                           name="state"
+                           class="form-control"
+                           required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">
+                        Pincode
+                    </label>
+                    <input type="text"
+                           name="pincode"
+                           class="form-control"
+                           required>
+                </div>
+
+                <button type="submit"
+                        class="btn btn-primary w-100 py-2">
+                    Place Order
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+{% endblock %}

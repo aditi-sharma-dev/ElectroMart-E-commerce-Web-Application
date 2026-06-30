@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-5">
+
+    <h2 class="mb-4">My Cart</h2>
+
+    {% if cart_items %}
+
+    <div class="card shadow-sm p-4">
+
+        <table class="table align-middle">
+
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for item in cart_items %}
+                <tr>
+
+                    <td>
+                        <img src="{{ item.product.image.url }}"
+                             width="80"
+                             height="80"
+                             style="object-fit:cover; border-radius:10px;">
+                    </td>
+
+                    <td>{{ item.product.name }}</td>
+
+                    <td>Rs. {{ item.product.price }}</td>
+
+                    <td>
+                        <a href="{% url 'decrease_quantity' item.id %}"
+                           class="btn btn-sm btn-secondary">-</a>
+
+                        <span class="mx-2">{{ item.quantity }}</span>
+
+                        <a href="{% url 'increase_quantity' item.id %}"
+                           class="btn btn-sm btn-secondary">+</a>
+                    </td>
+
+                    <td>
+                      Rs. {% widthratio item.product.price 1 item.quantity %}
+
+                    </td>
+
+                    <td>
+                        <a href="{% url 'remove_cart_item' item.id %}"
+                           class="btn btn-sm btn-danger">
+                            Remove
+                        </a>
+                    </td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        <div class="text-end mt-3">
+            <h4>Grand Total: Rs. {{ grand_total }}</h4>
+
+            <a href="{% url 'checkout' %}"
+               class="btn btn-primary mt-2">
+                Proceed To Checkout
+            </a>
+        </div>
+
+    </div>
+
+    {% else %}
+
+    <div class="alert alert-info text-center">
+        Your cart is empty.
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

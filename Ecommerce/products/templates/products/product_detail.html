@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{product.image.url}}" class="img-fluid rounded shadow">
+        </div>
+        <div class=="col-md-6">
+            <h2 >{{product.name}}</h2>
+            <p class="text-muted">Brand:{{product.brand}}</p>
+            <h3 class="text-primary">Rs.{{product.price}}</h3>
+            <p>{{product.description}}</p>
+            <p><strong>Stock:</strong>
+                {{product.stock}}
+            </p>
+            <div class="d-grid gap-2" mt-4>
+                <a href="{% url 'add_to_cart' product.id %}" class="btn gradient-btn">
+                    Add To Cart 
+                </a>
+                <a href="#" class="btn btn-outline-primary">
+                    Order Now 
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

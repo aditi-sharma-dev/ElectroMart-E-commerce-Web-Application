@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-4">
+
+    <h2 class="mb-4 fw-bold text-primary">
+        📦 My Orders
+    </h2>
+
+    {% for order in orders %}
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-light d-flex justify-content-between">
+            <div>
+                <h5 class="mb-1">
+                    Order {{ order.id }}
+                </h5>
+                <small class="text-muted">
+                    {{ order.created_at }}
+                </small>
+            </div>
+
+            <div>
+                <span class="badge bg-success">
+                    {{ order.status }}
+                </span>
+            </div>
+        </div>
+
+        <div class="card-body">
+
+            {% for item in order.orderitem_set.all %}
+
+            <div class="row align-items-center border-bottom pb-3 mb-3">
+
+                <div class="col-md-2 text-center">
+                    <img src="{{ item.product.image.url }}"
+                         class="img-fluid rounded"
+                         style="height:100px; object-fit:contain;">
+                </div>
+
+                <div class="col-md-4">
+                    <h6 class="mb-1">
+                        {{ item.product.name }}
+                    </h6>
+                    <p class="text-muted mb-0">
+                        {{ item.product.brand }}
+                    </p>
+                </div>
+
+                <div class="col-md-2">
+                    Qty: {{ item.quantity }}
+                </div>
+
+                <div class="col-md-2">
+                    ₹{{ item.price }}
+                </div>
+
+                <div class="col-md-2 fw-bold text-primary">
+                    ₹{% widthratio item.price 1 item.quantity %}
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+            <div class="text-end">
+                <h5 class="text-success">
+                    Total: ₹{{ order.total_price }}
+                </h5>
+            </div>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="alert alert-info text-center">
+        <h5>No Orders Found</h5>
+        <p>You haven't placed any orders yet.</p>
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
