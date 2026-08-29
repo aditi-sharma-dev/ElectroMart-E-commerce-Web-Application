@@ -23,6 +23,7 @@
                     <input type="text"
                            name="name"
                            class="form-control"
+                           value="{{ request.user.first_name }}"
                            required>
                 </div>
 
@@ -30,10 +31,14 @@
                     <label class="form-label fw-semibold">
                         Phone Number
                     </label>
-                    <input type="text"
-                           name="phone"
-                           class="form-control"
-                           required>
+                    <input type="tel"
+                    name="phone"
+                    class="form-control"
+                    value="{{ profile.phone }}"
+                    pattern="[0-9]{10}"
+                    maxlength="10"
+                    required>
+                    
                 </div>
 
                 <div class="mb-3">
@@ -43,7 +48,7 @@
                     <textarea name="address"
                               class="form-control"
                               rows="3"
-                              required></textarea>
+                              required>{{ profile.address }}</textarea>
                 </div>
 
                 <div class="mb-3">
@@ -53,6 +58,7 @@
                     <input type="text"
                            name="city"
                            class="form-control"
+                            value="{{ profile.city }}"
                            required>
                 </div>
 
@@ -63,6 +69,7 @@
                     <input type="text"
                            name="state"
                            class="form-control"
+                            value="{{profile.state}}"
                            required>
                 </div>
 
@@ -71,9 +78,12 @@
                         Pincode
                     </label>
                     <input type="text"
-                           name="pincode"
-                           class="form-control"
-                           required>
+                        name="pincode"
+                        class="form-control"
+                         value="{{ profile.pincode }}"
+                        pattern="[0-9]{6}"
+                        maxlength="6"
+                        required>
                 </div>
 
                 <button type="submit"

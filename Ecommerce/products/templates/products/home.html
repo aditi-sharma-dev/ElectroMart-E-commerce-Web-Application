@@ -202,11 +202,11 @@
 
                     <div class="d-grid gap-2 mt-3">
 
-                        <a href="#" class="btn btn-cart w-100">
+                        <a href="{% url 'add_to_cart' product.id %}" class="btn btn-cart w-100">
                             🛒 Add to Cart
                         </a>
 
-                        <a href="#" class="btn btn-order w-100">
+                        <a href="{% url 'order_now' product.id %}" class="btn btn-order w-100">
                             ⚡ Order Now
                         </a>
 

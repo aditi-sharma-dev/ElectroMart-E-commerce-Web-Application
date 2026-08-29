@@ -1,32 +1,41 @@
 {% extends 'base.html' %}
+
 {% block content %}
 
-<div class="container py-4">
+<div class="container py-5">
 
-    <h2 class="mb-4 fw-bold text-primary">
-        📦 My Orders
+    <h2 class="fw-bold mb-4">
+        My Orders
     </h2>
 
     {% for order in orders %}
 
-    <div class="card shadow-sm border-0 mb-4">
+    <div class="card mb-4">
+
+        <!-- ORDER HEADER -->
 
         <div class="card-header bg-light d-flex justify-content-between">
+
             <div>
-                <h5 class="mb-1">
-                    Order {{ order.id }}
-                </h5>
+                <strong>
+                    Order #{{ order.id }}
+                </strong>
+
+                <br>
+
                 <small class="text-muted">
-                    {{ order.created_at }}
+                    {{ order.created_at|date:"d M Y, h:i A" }}
                 </small>
             </div>
 
-            <div>
-                <span class="badge bg-success">
-                    {{ order.status }}
-                </span>
-            </div>
+            <span class="badge bg-warning text-dark align-self-center">
+                {{ order.status }}
+            </span>
+
         </div>
+
+
+        <!-- ORDER ITEMS -->
 
         <div class="card-body">
 
@@ -34,41 +43,101 @@
 
             <div class="row align-items-center border-bottom pb-3 mb-3">
 
+                <!-- IMAGE -->
+
                 <div class="col-md-2 text-center">
+
+                    {% if item.product.image %}
+
                     <img src="{{ item.product.image.url }}"
                          class="img-fluid rounded"
-                         style="height:100px; object-fit:contain;">
+                         style="height:90px; width:100%; object-fit:contain;">
+
+                    {% else %}
+
+                    <span class="text-muted">
+                        No Image
+                    </span>
+
+                    {% endif %}
+
                 </div>
+
+
+                <!-- PRODUCT -->
 
                 <div class="col-md-4">
-                    <h6 class="mb-1">
+
+                    <h6 class="fw-bold mb-1">
                         {{ item.product.name }}
                     </h6>
-                    <p class="text-muted mb-0">
+
+                    <small class="text-muted">
                         {{ item.product.brand }}
-                    </p>
+                    </small>
+
                 </div>
 
-                <div class="col-md-2">
-                    Qty: {{ item.quantity }}
-                </div>
+
+                <!-- QUANTITY -->
 
                 <div class="col-md-2">
+
+                    <small class="text-muted">
+                        Quantity
+                    </small>
+
+                    <br>
+
+                    {{ item.quantity }}
+
+                </div>
+
+
+                <!-- PRICE -->
+
+                <div class="col-md-2">
+
+                    <small class="text-muted">
+                        Price
+                    </small>
+
+                    <br>
+
                     ₹{{ item.price }}
+
                 </div>
 
-                <div class="col-md-2 fw-bold text-primary">
-                    ₹{% widthratio item.price 1 item.quantity %}
+
+                <!-- ITEM TOTAL -->
+
+                <div class="col-md-2">
+
+                    <small class="text-muted">
+                        Total
+                    </small>
+
+                    <br>
+
+                    <strong class="text-primary">
+                        ₹₹{{ item.item_total }}
+                    </strong>
+
                 </div>
 
             </div>
 
             {% endfor %}
 
+
+            <!-- ORDER TOTAL -->
+
             <div class="text-end">
-                <h5 class="text-success">
+
+                <strong class="fs-5">
                     Total: ₹{{ order.total_price }}
-                </h5>
+                </strong>
+
             </div>
 
         </div>
@@ -77,9 +146,25 @@
 
     {% empty %}
 
-    <div class="alert alert-info text-center">
-        <h5>No Orders Found</h5>
-        <p>You haven't placed any orders yet.</p>
+    <!-- NO ORDERS -->
+
+    <div class="text-center py-5">
+
+        <h5>
+            No Orders Found
+        </h5>
+
+        <p class="text-muted">
+            You haven't placed any orders yet.
+        </p>
+
+        <a href="{% url 'products' %}"
+           class="btn gradient-btn">
+
+            Start Shopping
+
+        </a>
+
     </div>
 
     {% endfor %}

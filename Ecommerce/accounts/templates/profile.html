@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-7">
+
+            <div class="card p-4">
+
+                <h3 class="fw-bold mb-4">My Profile</h3>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-semibold">Full Name</label>
+                        <p class="form-control bg-light">
+                            {{ request.user.first_name }}
+                        </p>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-semibold">Username</label>
+                        <p class="form-control bg-light">
+                            {{ request.user.username }}
+                        </p>
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                        <label class="fw-semibold">Email</label>
+                        <p class="form-control bg-light">
+                            {{ request.user.email }}
+                        </p>
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <h5 class="fw-bold mb-3">Contact Details</h5>
+
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="fw-semibold">Phone Number</label>
+                        <input type="text" name="phone"
+                               class="form-control"
+                               value="{{ profile.phone }}"
+                               maxlength="10"
+                               pattern="[0-9]{10}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="fw-semibold">Address</label>
+                        <textarea name="address"
+                                  class="form-control"
+                                  rows="3"
+                                  required>{{ profile.address }}</textarea>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-4 mb-3">
+                            <label class="fw-semibold">City</label>
+                            <input type="text" name="city"
+                                   class="form-control"
+                                   value="{{ profile.city }}" required>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="fw-semibold">State</label>
+                            <input type="text" name="state"
+                                   class="form-control"
+                                   value="{{ profile.state }}" required>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="fw-semibold">Pincode</label>
+                            <input type="text" name="pincode"
+                                   class="form-control"
+                                   value="{{ profile.pincode }}"
+                                   maxlength="6"
+                                   pattern="[0-9]{6}" required>
+                        </div>
+
+                    </div>
+
+                    <button class="btn gradient-btn w-100">
+                        Save Changes
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

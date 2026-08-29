@@ -7,76 +7,120 @@
 
     {% if cart_items %}
 
-    <div class="card shadow-sm p-4">
+    <form method="POST" action="{% url 'checkout' %}" id="cartForm">
+        {% csrf_token %}
 
-        <table class="table align-middle">
+        <div class="card shadow-sm p-4">
 
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
+            <table class="table align-middle">
 
-            <tbody>
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Image</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
 
-                {% for item in cart_items %}
-                <tr>
+                <tbody>
 
-                    <td>
-                        <img src="{{ item.product.image.url }}"
-                             width="80"
-                             height="80"
-                             style="object-fit:cover; border-radius:10px;">
-                    </td>
+                    {% for item in cart_items %}
 
-                    <td>{{ item.product.name }}</td>
+                    <tr>
 
-                    <td>Rs. {{ item.product.price }}</td>
+                        <!-- SELECT -->
+                        <td>
+                            <input type="checkbox"
+                                   name="selected_items"
+                                   value="{{ item.id }}"
+                                   class="form-check-input product-check"
+                                   data-total="{{ item.total_price }}"
+                                   style="width:20px;height:20px;">
+                        </td>
 
-                    <td>
-                        <a href="{% url 'decrease_quantity' item.id %}"
-                           class="btn btn-sm btn-secondary">-</a>
+                        <!-- IMAGE -->
+                        <td>
+                            {% if item.product.image %}
+                            <img src="{{ item.product.image.url }}"
+                                 width="80"
+                                 height="80"
+                                 style="object-fit:cover;border-radius:10px;">
+                            {% else %}
+                            <span>No Image</span>
+                            {% endif %}
+                        </td>
 
-                        <span class="mx-2">{{ item.quantity }}</span>
+                        <!-- PRODUCT -->
+                        <td>
+                            {{ item.product.name }}
+                        </td>
 
-                        <a href="{% url 'increase_quantity' item.id %}"
-                           class="btn btn-sm btn-secondary">+</a>
-                    </td>
+                        <!-- PRICE -->
+                        <td>
+                            ₹{{ item.product.price }}
+                        </td>
 
-                    <td>
-                      Rs. {% widthratio item.product.price 1 item.quantity %}
+                        <!-- QUANTITY -->
+                        <td>
 
-                    </td>
+                            <a href="{% url 'decrease_quantity' item.id %}"
+                               class="btn btn-sm btn-secondary">
+                                -
+                            </a>
 
-                    <td>
-                        <a href="{% url 'remove_cart_item' item.id %}"
-                           class="btn btn-sm btn-danger">
-                            Remove
-                        </a>
-                    </td>
+                            <span class="mx-2">
+                                {{ item.quantity }}
+                            </span>
 
-                </tr>
-                {% endfor %}
+                            <a href="{% url 'increase_quantity' item.id %}"
+                               class="btn btn-sm btn-secondary">
+                                +
+                            </a>
 
-            </tbody>
+                        </td>
 
-        </table>
+                        <!-- TOTAL -->
+                        <td>
+                            ₹{{ item.total_price }}
+                        </td>
 
-        <div class="text-end mt-3">
-            <h4>Grand Total: Rs. {{ grand_total }}</h4>
+                        <!-- REMOVE -->
+                        <td>
+                            <a href="{% url 'remove_cart_item' item.id %}"
+                               class="btn btn-sm btn-danger">
+                                Remove
+                            </a>
+                        </td>
 
-            <a href="{% url 'checkout' %}"
-               class="btn btn-primary mt-2">
-                Proceed To Checkout
-            </a>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            <div class="text-end mt-3">
+
+                <h4>
+                    Grand Total:
+                    ₹<span id="grandTotal">0.00</span>
+                </h4>
+
+                <button type="submit"
+                        class="btn btn-primary mt-2">
+                    Proceed To Checkout
+                </button>
+
+            </div>
+
         </div>
 
-    </div>
+    </form>
 
     {% else %}
 
@@ -87,5 +131,46 @@
     {% endif %}
 
 </div>
+
+
+<script>
+
+const checkboxes = document.querySelectorAll('.product-check');
+const grandTotal = document.getElementById('grandTotal');
+
+function updateTotal() {
+
+    let total = 0;
+
+    checkboxes.forEach(function(checkbox) {
+
+        if (checkbox.checked) {
+            total += parseFloat(checkbox.dataset.total);
+        }
+
+    });
+
+    grandTotal.innerText = total.toFixed(2);
+}
+
+checkboxes.forEach(function(checkbox) {
+    checkbox.addEventListener('change', updateTotal);
+});
+
+
+document.getElementById('cartForm').addEventListener('submit', function(event) {
+
+    let selected = document.querySelectorAll(
+        '.product-check:checked'
+    );
+
+    if (selected.length === 0) {
+        event.preventDefault();
+        alert('Please select at least one product.');
+    }
+
+});
+
+</script>
 
 {% endblock %}
