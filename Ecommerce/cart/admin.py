@@ -1,6 +1,14 @@
 from django.contrib import admin
-from cart.models import *
-admin.site.register(Cart)
-admin.site.register(CartItem)
+from .models import Cart, CartItem
 
-# Register your models here.
+
+@admin.register(Cart)
+class CartAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'created_at')
+    search_fields = ('user__username',)
+
+
+@admin.register(CartItem)
+class CartItemAdmin(admin.ModelAdmin):
+    list_display = ('id', 'cart', 'product', 'quantity')
+    search_fields = ('product__name', 'cart__user__username')
