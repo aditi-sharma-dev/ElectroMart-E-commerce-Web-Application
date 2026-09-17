@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+
+        <div class="card p-4">
+
+            <h3 class="fw-bold mb-4">My Profile</h3>
+
+            <!-- Account Information -->
+            <h5 class="fw-bold">Account Information</h5>
+
+            <div class="row mt-3">
+
+                <div class="col-md-6 mb-3">
+                    <small class="text-muted">Full Name</small>
+                    <p class="fw-semibold mb-0">
+                        {{ request.user.first_name }}
+                    </p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <small class="text-muted">Username</small>
+                    <p class="fw-semibold mb-0">
+                        @{{ request.user.username }}
+                    </p>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <small class="text-muted">Email</small>
+                    <p class="fw-semibold mb-0">
+                        {{ request.user.email }}
+                    </p>
+                </div>
+
+            </div>
+
+            <hr>
+
+            <!-- Contact Information -->
+            <h5 class="fw-bold">Contact Information</h5>
+
+            <div class="row mt-3">
+
+                <div class="col-md-6 mb-3">
+                    <small class="text-muted">Phone Number</small>
+                    <p class="fw-semibold mb-0">
+                        {{ profile.phone|default:"Not added" }}
+                    </p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <small class="text-muted">City</small>
+                    <p class="fw-semibold mb-0">
+                        {{ profile.city|default:"Not added" }}
+                    </p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <small class="text-muted">State</small>
+                    <p class="fw-semibold mb-0">
+                        {{ profile.state|default:"Not added" }}
+                    </p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <small class="text-muted">Pincode</small>
+                    <p class="fw-semibold mb-0">
+                        {{ profile.pincode|default:"Not added" }}
+                    </p>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <small class="text-muted">Address</small>
+                    <p class="fw-semibold mb-0">
+                        {{ profile.address|default:"Not added" }}
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="text-end mt-3">
+                <a href="{% url 'edit_profile' %}"
+                   class="btn gradient-btn px-4">
+                    Edit Profile
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+</div>
+
+{% endblock %}

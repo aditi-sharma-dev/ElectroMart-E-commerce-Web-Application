@@ -1,4 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect,get_object_or_404
+from cart.models import Cart, CartItem
+from django.contrib.auth.decorators import login_required
 from.models import *
 
 def home(request):
@@ -41,3 +43,18 @@ def product_detail(request,id):
     product=get_object_or_404(Product,id=id)
     return render(request,'products/product_detail.html',{'product':product})
     
+@login_required
+def order_now(request,product_id):
+    product=get_object_or_404(Product,id=product_id)
+    if product.stock<=0:
+        return redirect('product_detail',id=product_id)
+    cart,created=Cart.objects.get_or_create(user=request.user)
+    cart_item,created=CartItem.objects.get_or_create(cart=cart,product=product)
+    if not created:
+    
+        if cart_item.quantity<product.stock:
+            cart_item.quantity+=1
+          
+            cart_item.save()
+        
+    return redirect('checkout')

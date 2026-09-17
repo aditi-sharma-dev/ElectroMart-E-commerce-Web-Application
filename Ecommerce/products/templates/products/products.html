@@ -63,9 +63,16 @@
                     <div class="card product-card h-100">
 
                         <a href="{% url 'product_detail' product.id %}">
-                            <img src="{{ product.image.url }}"
-                                 class="card-img-top"
-                                 style="height:200px; object-fit:contain;">
+                            {% if product.image %}
+                             <img src="{{ product.image.url }}"
+                              class="card-img-top"
+                               style="height:200px; object-fit:contain;">
+                               {% else %}
+                               <div class="text-center p-5 text-muted">
+                                No Image Available
+                             </div>
+                             {% endif %}
+                            
                         </a>
 
                         <div class="card-body">
@@ -83,7 +90,7 @@
                                     🛒 Add To Cart
                                 </a>
 
-                                <a href="#"
+                                <a href="{% url 'order_now' product.id %}"
                                    class="btn btn-order">
                                     ⚡ Order Now
                                 </a>

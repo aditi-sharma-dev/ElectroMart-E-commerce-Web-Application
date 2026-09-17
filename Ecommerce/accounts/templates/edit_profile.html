@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+
+<div class="row justify-content-center">
+    <div class="col-md-7">
+
+        <div class="card p-4">
+
+            <h3 class="fw-bold mb-4">
+                Edit Profile
+            </h3>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="fw-semibold">
+                        Phone Number
+                    </label>
+
+                    <input type="text"
+                           name="phone"
+                           class="form-control"
+                           value="{{ profile.phone }}"
+                           maxlength="10"
+                           pattern="[0-9]{10}"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="fw-semibold">
+                        Address
+                    </label>
+
+                    <textarea name="address"
+                              class="form-control"
+                              rows="3"
+                              required>{{ profile.address }}</textarea>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+                        <label class="fw-semibold">
+                            City
+                        </label>
+
+                        <input type="text"
+                               name="city"
+                               class="form-control"
+                               value="{{ profile.city }}"
+                               required>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="fw-semibold">
+                            State
+                        </label>
+
+                        <input type="text"
+                               name="state"
+                               class="form-control"
+                               value="{{ profile.state }}"
+                               required>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="fw-semibold">
+                            Pincode
+                        </label>
+
+                        <input type="text"
+                               name="pincode"
+                               class="form-control"
+                               value="{{ profile.pincode }}"
+                               maxlength="6"
+                               pattern="[0-9]{6}"
+                               required>
+                    </div>
+
+                </div>
+
+                <div class="d-flex justify-content-between mt-3">
+
+                    <a href="{% url 'profile' %}"
+                       class="btn btn-secondary">
+                        Cancel
+                    </a>
+
+                    <button type="submit"
+                            class="btn gradient-btn px-4">
+                        Save Changes
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+
+</div>
+
+{% endblock %}
